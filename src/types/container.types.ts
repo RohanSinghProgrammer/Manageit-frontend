@@ -6,4 +6,5 @@ export default interface ContainerProps {
   title?: string;
   description?: string;
   onAddItem?: () => void;
+  className?: string;
 }

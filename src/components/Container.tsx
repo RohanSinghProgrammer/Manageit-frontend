@@ -1,8 +1,9 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import clsx from "clsx";
 import { Button } from "@/components/ui/button";
 import ContainerProps from "@/types/container.types";
+import { cn } from "@/lib/utils";
+import { Ellipsis, Plus } from 'lucide-react';
 
 const Container = ({
   id,
@@ -10,6 +11,7 @@ const Container = ({
   title,
   description,
   onAddItem,
+  className,  
 }: ContainerProps) => {
   const {
     attributes,
@@ -32,26 +34,28 @@ const Container = ({
         transition,
         transform: CSS.Translate.toString(transform),
       }}
-      className={clsx(
-        "w-full h-full p-4 bg-gray-50 rounded-xl flex flex-col gap-y-4",
+      className={cn(
+        "w-96 p-4 bg-gray-50 rounded-xl flex flex-col h-full",
+        className,
         isDragging && "opacity-50"
       )}
     >
-      <div className="flex items-center justify-between">
+      <div {...listeners} className="flex items-center justify-between cursor-move mb-4">
         <div className="flex flex-col gap-y-1">
           <h1 className="text-gray-800 text-xl">{title}</h1>
           <p className="text-gray-400 text-sm">{description}</p>
         </div>
-        <button
-          className="border p-2 text-xs rounded-xl shadow-lg hover:shadow-xl"
-          {...listeners}
-        >
-          Drag Handle
-        </button>
+        <Button variant="ghost" size="icon">
+          <Ellipsis className="size-4" />
+        </Button>
       </div>
 
-      {children}
-      <Button variant="ghost" onClick={onAddItem}>
+      <div className="flex-grow flex flex-col gap-y-4 overflow-y-auto">
+        {children}
+      </div>
+      
+      <Button variant="outline" onClick={onAddItem} className="mt-4">
+        <Plus className="size-4" />
         Add Item
       </Button>
     </div>

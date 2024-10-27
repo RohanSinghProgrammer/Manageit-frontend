@@ -1,5 +1,3 @@
-"use client";
-
 import { useState, useEffect, FormEvent } from "react";
 import { v4 as uuidv4 } from "uuid";
 
@@ -26,8 +24,10 @@ import {
 import { Button } from "@/components/ui/button";
 import Container from "@/components/Container";
 import Items from "@/components/Items";
-import AddColumnDialog from "./components/AddColumnDialog";
+import AddColumnDialog from "./components/AddContainerDialog";
 import AddItemDialog from "./components/AddItemDialog";
+import Navbar from "./components/Navbar";
+import { Plus } from "lucide-react";
 
 type DNDType = {
   id: UniqueIdentifier;
@@ -348,15 +348,10 @@ const Home = () => {
   }
 
   return (
-    <div className="mx-auto max-w-7xl py-10">
-      <div className="flex items-center justify-between gap-y-2">
-        <h1 className="text-gray-800 text-3xl font-bold">Dnd-kit Guide</h1>
-        <Button onClick={() => setShowAddContainerModal(true)}>
-          Add Container
-        </Button>
-      </div>
-      <div className="mt-10">
-        <div className="grid grid-cols-3 gap-6">
+    <>
+      <Navbar />
+      <div className="mx-auto max-w-full">
+        <div className="flex overflow-x-auto p-4 h-[90vh]">
           <DndContext
             sensors={sensors}
             collisionDetection={closestCorners}
@@ -365,25 +360,27 @@ const Home = () => {
             onDragEnd={handleDragEnd}
           >
             <SortableContext items={containers.map((i) => i.id)}>
-              {containers.map((container) => (
-                <Container
-                  id={container.id}
-                  title={container.title}
-                  key={container.id}
-                  onAddItem={() => {
-                    setShowAddItemModal(true);
-                    setCurrentContainerId(container.id);
-                  }}
-                >
-                  <SortableContext items={container.items.map((i) => i.id)}>
-                    <div className="flex items-start flex-col gap-y-4">
-                      {container.items.map((i) => (
-                        <Items title={i.title} id={i.id} key={i.id} />
-                      ))}
-                    </div>
-                  </SortableContext>
-                </Container>
-              ))}
+              <div className="flex gap-4">
+                {containers.map((container) => (
+                  <Container
+                    id={container.id}
+                    title={container.title}
+                    key={container.id}
+                    onAddItem={() => {
+                      setShowAddItemModal(true);
+                      setCurrentContainerId(container.id);
+                    }}
+                  >
+                    <SortableContext items={container.items.map((i) => i.id)}>
+                      <div className="flex items-start flex-col gap-y-4">
+                        {container.items.map((i) => (
+                          <Items title={i.title} id={i.id} key={i.id} />
+                        ))}
+                      </div>
+                    </SortableContext>
+                  </Container>
+                ))}
+              </div>
             </SortableContext>
             <DragOverlay adjustScale={false}>
               {/* Drag Overlay For item Item */}
@@ -392,7 +389,7 @@ const Home = () => {
               )}
               {/* Drag Overlay For Container */}
               {activeId && activeId.toString().includes("container") && (
-                <Container id={activeId} title={findContainerTitle(activeId)}>
+                <Container id={activeId} title={findContainerTitle(activeId)} className="h-auto">
                   {findContainerItems(activeId).map((i) => (
                     <Items key={i.id} title={i.title} id={i.id} />
                   ))}
@@ -400,23 +397,33 @@ const Home = () => {
               )}
             </DragOverlay>
           </DndContext>
+          <div className="flex-shrink-0 ml-4">
+            <Button
+              className="w-96"
+              variant={"outline"}
+              onClick={() => setShowAddContainerModal(true)}
+            >
+              <Plus className="size-4" />
+              Add Container
+            </Button>
+          </div>
         </div>
+        <AddColumnDialog
+          open={showAddContainerModal}
+          onClose={() => setShowAddContainerModal(false)}
+          containerName={containerName}
+          setContainerName={setContainerName}
+          handleSubmit={onAddContainer}
+        />
+        <AddItemDialog
+          open={showAddItemModal}
+          onClose={() => setShowAddItemModal(false)}
+          itemName={itemName}
+          setItemName={setItemName}
+          handleSubmit={onAddItem}
+        />
       </div>
-      <AddColumnDialog
-        open={showAddContainerModal}
-        onClose={() => setShowAddContainerModal(false)}
-        containerName={containerName}
-        setContainerName={setContainerName}
-        handleSubmit={onAddContainer}
-      />
-      <AddItemDialog
-        open={showAddItemModal}
-        onClose={() => setShowAddItemModal(false)}
-        itemName={itemName}
-        setItemName={setItemName}
-        handleSubmit={onAddItem}
-      />
-    </div>
+    </>
   );
 };
 

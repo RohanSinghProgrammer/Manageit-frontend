@@ -6,7 +6,7 @@ import {
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 
-type AddColumnDialogProps = {
+type AddContainerDialogProps = {
   open: boolean;
   onClose: () => void;
   containerName: string;
@@ -14,25 +14,25 @@ type AddColumnDialogProps = {
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
 };
 
-const AddColumnDialog = ({
+const AddContainerDialog = ({
   open,
   onClose,
   containerName,
   setContainerName,
   handleSubmit,
-}: AddColumnDialogProps) => {
+}: AddContainerDialogProps) => {
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="mt-4">
-        <DialogTitle>Add Column</DialogTitle>
+        <DialogTitle>Add Container</DialogTitle>
         <form onSubmit={handleSubmit}>
           <Input
-            placeholder="Column Title"
+            placeholder="Container Title"
             value={containerName}
             onChange={(e) => setContainerName(e.target.value)}
           />
           <Button type="submit" className="mt-4 w-full">
-            Add Column
+            Add Container
           </Button>
         </form>
       </DialogContent>
@@ -40,4 +40,4 @@ const AddColumnDialog = ({
   );
 };
 
-export default AddColumnDialog;
+export default AddContainerDialog;
