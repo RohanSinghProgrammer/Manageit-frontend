@@ -12,15 +12,31 @@ import {
   CardDescription,
 } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
+import { loginUser } from "@/api/auth";
+import { useToast } from "@/hooks/use-toast";
+import { Toaster } from "@/components/ui/toaster";
 
 const Login = () => {
+  const {toast} = useToast()
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // Handle login logic here
+    try {
+      const res = await loginUser({
+        email,
+        pass: password
+      })
+      localStorage.setItem("authToken", JSON.stringify({token: res?.token}))
+    } catch (error) {
+        toast({
+          title: "Error",
+          description: "error?.message",
+        })
+      }
   };
 
   return (
@@ -105,6 +121,7 @@ const Login = () => {
           </form>
         </CardContent>
       </Card>
+      <Toaster />
     </div>
   );
 };

@@ -22,7 +22,7 @@ export default function ForgotPassword() {
         description: "Please check your email for the OTP",
       })
       setStep(2)
-    } catch (error) {
+    } catch (error ) {
       toast({
         variant: "destructive",
         title: "Error",

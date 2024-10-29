@@ -17,7 +17,7 @@ const App = () => {
     createRoutesFromElements(
       <Route>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/board/:boardId" element={<Board />} />
+        <Route path="/organizations/:orgId/board/:boardId" element={<Board />} />
         <Route path="/auth/login" element={<Login />} />
         <Route path="/auth/signup" element={<SignUp />} />
         <Route path="/auth/forgot-password" element={<ForgotPassword />} />
