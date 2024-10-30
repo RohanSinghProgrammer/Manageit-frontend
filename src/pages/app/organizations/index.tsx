@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
-import { Plus } from "lucide-react";
 import Navbar from "./components/Navbar";
 import CreateBoardDialog from "./components/reateBoardDialog";
 
@@ -55,8 +54,7 @@ const Organizations = () => {
               className="flex items-center space-x-2"
               onClick={() => setIsCreateBoardDialogOpen(true)}
             >
-              <Plus className="w-4 h-4" />
-              <span>Create Board</span>
+              <span>+ Create Board</span>
             </Button>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
