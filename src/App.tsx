@@ -11,6 +11,7 @@ import Login from "@/pages/auth/Login";
 import ForgotPassword from "@/pages/auth/ForgotPassword";
 import Organizations from "@/pages/app/organizations";
 import UserManagement from "@/pages/app/userManagement";
+import Teams from "@/pages/app/teams";
 
 const App = () => {
   const router = createBrowserRouter(
@@ -26,6 +27,7 @@ const App = () => {
           path="/:orgId/user-management/:userId"
           element={<UserManagement />}
         />
+        <Route path="/organizations/:orgId/teams" element={<Teams />} />
       </Route>
     )
   );

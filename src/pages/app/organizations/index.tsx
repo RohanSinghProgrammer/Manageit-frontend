@@ -2,7 +2,10 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import Navbar from "./components/Navbar";
-import CreateBoardDialog from "./components/reateBoardDialog";
+import CreateBoardDialog from "./components/CreateBoardDialog";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Layout, Users } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const organizations = ["Organization 1", "Organization 2", "Organization 3"];
 const boards = [
@@ -14,6 +17,8 @@ const boards = [
 const Organizations = () => {
   const [selectedOrg, setSelectedOrg] = useState(organizations[0]);
   const [isCreateBoardDialogOpen, setIsCreateBoardDialogOpen] = useState(false);
+  const [openAccordion, setOpenAccordion] = useState<string | undefined>(undefined);
+  const navigate = useNavigate();
 
   const handleCreateBoard = (name: string) => {
     console.log(`Creating board: ${name}`);
@@ -27,24 +32,51 @@ const Organizations = () => {
         onOrgChange={setSelectedOrg}
       />
       <div className="flex min-h-[calc(100vh-72px)] bg-gray-100">
-        <aside className="w-64 bg-white/80 backdrop-blur-sm shadow-lg hidden md:block overflow-auto border-r border-gray-100">
-          <div className="p-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-6">Organizations</h2>
-            <ul className="space-y-3">
+        <aside className="w-64 bg-white shadow-sm hidden md:block overflow-auto">
+          <div className="p-4">
+            <h2 className="text-lg font-medium text-gray-900 mb-4 px-2">Organizations</h2>
+            <Accordion 
+              type="single" 
+              collapsible 
+              className="space-y-1"
+              value={openAccordion}
+              onValueChange={setOpenAccordion}
+            >
               {organizations.map((org) => (
-                <li
-                  key={org}
-                  className={`px-4 py-3 rounded-lg cursor-pointer transition-all duration-200 hover:scale-[1.02] ${
-                    selectedOrg === org
-                      ? "bg-gradient-to-r from-black to-gray-700 text-white shadow-md"
-                      : "bg-gray-50 hover:bg-gray-100 text-gray-700"
-                  }`}
-                  onClick={() => setSelectedOrg(org)}
-                >
-                  {org}
-                </li>
+                <AccordionItem key={org} value={org}>
+                  <AccordionTrigger
+                    className={`px-3 py-2.5 hover:no-underline ${
+                      selectedOrg === org && openAccordion !== org
+                        ? "bg-gray-900 text-white rounded-md"
+                        : "text-gray-700 hover:bg-gray-50 rounded-md"
+                    }`}
+                    onClick={() => setSelectedOrg(org)}
+                  >
+                    <div className="flex items-center">
+                      <div className="h-6 w-6 rounded bg-gray-200 mr-3 flex items-center justify-center">
+                        {org.charAt(0)}
+                      </div>
+                      <span className="font-medium">{org}</span>
+                    </div>
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <div className="py-1">
+                      <div className="flex items-center px-4 py-2 text-sm text-gray-900 bg-gray-100 transition-colors cursor-pointer">
+                        <Layout className="h-4 w-4 mr-2" />
+                        <span className="ml-6">Boards</span>
+                      </div>
+                      <div 
+                        className="flex items-center px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 transition-colors cursor-pointer"
+                        onClick={() => navigate("/organizations/123/teams")}
+                      >
+                        <Users className="h-4 w-4 mr-2" />
+                        <span className="ml-6">Teams</span>
+                      </div>
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
               ))}
-            </ul>
+            </Accordion>
           </div>
         </aside>
         <main className="flex-1 p-6 overflow-auto">
@@ -59,7 +91,11 @@ const Organizations = () => {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {boards.map((board) => (
-              <Card key={board.name} className="relative">
+              <Card 
+                key={board.name} 
+                className="relative cursor-pointer hover:opacity-75 transition-opacity"
+                onClick={() => navigate("/organizations/123/board/123")}
+              >
                 <img
                   src={board.bgImage}
                   alt={board.name}

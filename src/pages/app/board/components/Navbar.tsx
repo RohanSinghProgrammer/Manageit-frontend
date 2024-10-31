@@ -1,8 +1,16 @@
 import { Bell, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { NavLink } from "react-router-dom";
+import { useState } from "react";
+import CreateBoardDialog from "../../organizations/components/CreateBoardDialog";
 
 const Navbar = () => {
+  const [isCreateBoardDialogOpen, setIsCreateBoardDialogOpen] = useState(false);
+
+  const handleCreateBoard = (name: string) => {
+    console.log(`Creating board: ${name}`);
+  };
+
   return (
     <nav className="bg-white shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -16,20 +24,29 @@ const Navbar = () => {
             </div>
             <div className="hidden sm:ml-6 sm:flex sm:space-x-8 md:flex md:items-center">
               <NavLink
-                to="/organizations/123/boards/123"
-                className="border-indigo-500 text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                to="/organizations/123/board/123"
+                className={({ isActive }) =>
+                  isActive
+                    ? "border-indigo-500 text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                    : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                }
               >
                 Boards
               </NavLink>
               <NavLink
                 to="/organizations/123/teams"
-                className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                className={({ isActive }) =>
+                  isActive
+                    ? "border-indigo-500 text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                    : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                }
               >
                 Teams
               </NavLink>
               <Button
                 variant="outline"
                 className="inline-flex items-center gap-x-2 text-sm font-medium"
+                onClick={() => setIsCreateBoardDialogOpen(true)}
               >
                 <Plus className="size-4" />
                 Create
@@ -52,6 +69,11 @@ const Navbar = () => {
           </div>
         </div>
       </div>
+      <CreateBoardDialog
+        isOpen={isCreateBoardDialogOpen}
+        onClose={() => setIsCreateBoardDialogOpen(false)}
+        onCreateBoard={handleCreateBoard}
+      />
     </nav>
   );
 };
