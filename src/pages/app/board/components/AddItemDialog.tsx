@@ -20,15 +20,15 @@ const AddItemDialog = ({
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="mt-4">
-        <DialogTitle>Add Column</DialogTitle>
+        <DialogTitle>Add Item</DialogTitle>
         <form onSubmit={handleSubmit}>
           <Input
-            placeholder="Column Title"
+            placeholder="Item Title"
             value={itemName}
             onChange={(e) => setItemName(e.target.value)}
           />
           <Button type="submit" className="mt-4 w-full">
-            Add Column
+            Add Item
           </Button>
         </form>
       </DialogContent>

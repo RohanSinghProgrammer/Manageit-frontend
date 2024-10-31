@@ -1,5 +1,6 @@
-import { Bell } from "lucide-react";
+import { Bell, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { NavLink } from "react-router-dom";
 
 const Navbar = () => {
   return (
@@ -13,25 +14,26 @@ const Navbar = () => {
                 Board
               </span>
             </div>
-            <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
-              <a
-                href="#"
+            <div className="hidden sm:ml-6 sm:flex sm:space-x-8 md:flex md:items-center">
+              <NavLink
+                to="/organizations/123/boards/123"
                 className="border-indigo-500 text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
               >
                 Boards
-              </a>
-              <a
-                href="#"
+              </NavLink>
+              <NavLink
+                to="/organizations/123/teams"
                 className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
               >
                 Teams
-              </a>
-              <a
-                href="#"
-                className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+              </NavLink>
+              <Button
+                variant="outline"
+                className="inline-flex items-center gap-x-2 text-sm font-medium"
               >
+                <Plus className="size-4" />
                 Create
-              </a>
+              </Button>
             </div>
           </div>
           <div className="hidden sm:ml-6 sm:flex sm:items-center">
